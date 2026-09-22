@@ -11,10 +11,6 @@ namespace FinancialMonitor.Application.DTOs
 {
     public class CreateTransactionRequest
     {
-
-        //[Required]
-        //public Guid TransactionId { get; set; }
-
         [Range(0.01, double.MaxValue)]
         public decimal Amount { get; set; }
 
@@ -24,8 +20,5 @@ namespace FinancialMonitor.Application.DTOs
 
         [Required]
         public TransactionStatus Status { get; set; }
-
-        //[Required]
-        //public DateTime Timestamp { get; set; }
     }
 }

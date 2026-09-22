@@ -1,5 +1,7 @@
-import type { Transaction, CreateTransactionRequest, } from '../types/transaction'
-
+import type {
+    CreateTransactionRequest,
+    Transaction,
+} from '../types/transaction'
 
 const API_BASE_URL = 'https://localhost:7147'
 
@@ -20,14 +22,6 @@ export async function getLatestTransactions(
 export async function createTransaction(
     request: CreateTransactionRequest
 ): Promise<Transaction> {
-    const transaction = {
-        transactionId: crypto.randomUUID(),
-        amount: request.amount,
-        currency: request.currency,
-        status: request.status,
-        timestamp: new Date().toISOString(),
-    }
-
     const response = await fetch(
         `${API_BASE_URL}/api/Transactions`,
         {
@@ -35,7 +29,7 @@ export async function createTransaction(
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(transaction),
+            body: JSON.stringify(request),
         }
     )
 

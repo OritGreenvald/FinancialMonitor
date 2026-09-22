@@ -4,7 +4,6 @@ import './TransactionTable.css'
 interface TransactionTableProps {
     transactions: Transaction[]
 }
-
 function getStatusLabel(status: Transaction['status']) {
     switch (status) {
         case 'Pending':
@@ -26,9 +25,6 @@ function getStatusLabel(status: Transaction['status']) {
             }
     }
 }
-
-
-
 function TransactionTable({ transactions }: TransactionTableProps) {
     if (transactions.length === 0) {
         return (
