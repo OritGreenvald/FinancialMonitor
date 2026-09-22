@@ -1,0 +1,43 @@
+.connection-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.connection-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.connection-connected {
+    color: #155724;
+    background-color: #d4edda;
+}
+
+    .connection-connected .connection-dot {
+        background-color: #28a745;
+    }
+
+.connection-reconnecting {
+    color: #856404;
+    background-color: #fff3cd;
+}
+
+    .connection-reconnecting .connection-dot {
+        background-color: #ffc107;
+    }
+
+.connection-disconnected {
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+    .connection-disconnected .connection-dot {
+        background-color: #dc3545;
+    }

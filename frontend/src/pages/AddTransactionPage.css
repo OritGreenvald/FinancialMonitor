@@ -1,0 +1,76 @@
+.add-transaction-page {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+    .add-transaction-page h1 {
+        margin-bottom: 24px;
+        color: #1f2937;
+    }
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .form-field label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-field input,
+    .form-field select {
+        padding: 10px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #6b7280;
+        }
+
+.transaction-form button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .transaction-form button:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+.form-error {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+.form-success {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #155724;
+    background-color: #d4edda;
+}
