@@ -206,6 +206,29 @@ Client-side validation is applied before submitting the request.
 | POST | `/api/Transactions` | Creates a transaction |
 | GET | `/api/Transactions?count=10` | Returns the latest transactions |
 
+## Tests
+
+The project includes backend unit tests covering the main transaction processing and storage logic.
+
+The tests cover:
+
+- Transaction creation and persistence
+- Transaction retrieval
+- Repository storage behavior
+- Concurrent transaction writes
+- Concurrent reads and writes
+- Latest transaction ordering
+
+The test suite uses xUnit and Moq.
+
+Run the tests with:
+
+```bash
+dotnet test .\FinancialMonitor.Tests\FinancialMonitor.Tests.csproj
+```
+
+All tests should pass successfully.
+
 ## Running the Project
 
 ### Backend
@@ -268,6 +291,6 @@ Possible future improvements include:
 - Transaction statistics and summary widgets
 - Additional sorting and filtering options
 - Authentication and authorization
-- Automated backend and frontend tests
+- Additional frontend tests
 - Production configuration and deployment
 - More detailed monitoring and logging
