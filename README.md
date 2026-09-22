@@ -283,6 +283,54 @@ The SignalR hub contains no business logic.
 
 Transaction processing remains inside the application service, while the notifier abstraction handles communication with connected clients.
 
+## Cloud-Native and Distributed Architecture
+
+The current MVP uses in-memory storage, which is suitable for a single application instance.
+
+In a production environment with multiple application pods, shared infrastructure would be required to keep transaction data and real-time notifications consistent across all instances.
+
+A possible production architecture would be:
+
+```
+                         Clients
+                            ?
+                     Load Balancer
+                            ?
+          ?????????????????????????????????????
+          ?                 ?                 ?
+        Pod 1             Pod 2             Pod 3 ... Pod 5
+          ?                 ?                 ?
+          ?????????????????????????????????????
+                            ?
+                    Shared Database
+                            ?
+                    Redis Backplane
+                            ?
+                         SignalR
+```
+
+### Shared Transaction Storage
+
+The in-memory repository would be replaced with a shared database such as PostgreSQL, SQL Server, or another production-ready relational database.
+
+All application pods would read from and write to the same database, ensuring that transactions are not isolated to a single pod.
+
+### Real-Time Synchronization
+
+A Redis backplane or Azure SignalR Service could be used to synchronize SignalR messages across multiple application instances.
+
+For example, if a transaction is created through Pod 1, the application would persist the transaction in the shared database and publish the real-time notification through the shared messaging infrastructure.
+
+Other pods would receive the notification and broadcast it to clients connected to those pods.
+
+### Stateless Application Pods
+
+The application pods would remain stateless.
+
+Transaction state would not be stored in local application memory, allowing requests and SignalR connections to be distributed across multiple pods by a load balancer.
+
+This architecture allows the application to scale horizontally while maintaining consistent transaction data and real-time updates across instances.
+
 ## Future Improvements
 
 Possible future improvements include:
