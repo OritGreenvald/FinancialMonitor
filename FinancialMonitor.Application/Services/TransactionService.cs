@@ -21,11 +21,11 @@ public class TransactionService : ITransactionService
     {
         var transaction = new Transaction
         {
-            TransactionId = request.TransactionId,
+            TransactionId = Guid.NewGuid(),
             Amount = request.Amount,
             Currency = request.Currency,
             Status = request.Status,
-            Timestamp = request.Timestamp
+            Timestamp = DateTime.UtcNow
         };
 
         await _repository.AddAsync(transaction);

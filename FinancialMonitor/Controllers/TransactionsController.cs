@@ -26,8 +26,13 @@ public class TransactionsController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetLatest(
-        [FromQuery] int count = 10)
+    [FromQuery] int count = 10)
     {
+        if (count <= 0 || count > 100)
+        {
+            return BadRequest("Count must be between 1 and 100.");
+        }
+
         var transactions = await _transactionService.GetLatestAsync(count);
 
         return Ok(transactions);
