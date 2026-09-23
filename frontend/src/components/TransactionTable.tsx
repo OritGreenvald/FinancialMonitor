@@ -3,7 +3,9 @@ import './TransactionTable.css'
 
 interface TransactionTableProps {
     transactions: Transaction[]
+    highlightedTransactionId?: string | null
 }
+
 function getStatusLabel(status: Transaction['status']) {
     switch (status) {
         case 'Pending':
@@ -25,7 +27,10 @@ function getStatusLabel(status: Transaction['status']) {
             }
     }
 }
-function TransactionTable({ transactions }: TransactionTableProps) {
+function TransactionTable({
+    transactions,
+    highlightedTransactionId,
+}: TransactionTableProps) {
     if (transactions.length === 0) {
         return (
             <div className="empty-state">
@@ -54,7 +59,14 @@ function TransactionTable({ transactions }: TransactionTableProps) {
                     const status = getStatusLabel(transaction.status)
 
                     return (
-                        <tr key={transaction.transactionId}>
+                        <tr
+                            key={transaction.transactionId}
+                            className={
+                                transaction.transactionId === highlightedTransactionId
+                                    ? 'transaction-row-new'
+                                    : ''
+                            }
+                        >
                             <td>{transaction.transactionId}</td>
                             <td>{transaction.amount.toFixed(2)}</td>
                             <td>{transaction.currency}</td>

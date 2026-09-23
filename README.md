@@ -15,6 +15,12 @@ The application consists of:
 - Thread-safe in-memory transaction storage
 - A dashboard for monitoring transactions
 - A transaction simulator for creating new transactions
+- Client-side transaction filtering
+- Real-time connection status monitoring
+- Automated backend unit tests
+- Docker containerization
+- Kubernetes deployment manifests
+- Enhanced UI animations for newly received transactions
 
 ## Architecture
 
@@ -84,6 +90,17 @@ This separation keeps HTTP concerns, business logic, domain models, and persiste
 - Vite
 - React Router
 - `@microsoft/signalr`
+
+### Testing
+
+- xUnit
+- Moq
+
+### DevOps
+
+- Docker
+- Docker Desktop Kubernetes
+- Kubernetes
 
 ## Backend
 
@@ -208,7 +225,7 @@ Client-side validation is applied before submitting the request.
 
 ## Tests
 
-The project includes backend unit tests covering the main transaction processing and storage logic.
+The project includes backend unit tests covering transaction processing, storage, ordering, and concurrency.
 
 The tests cover:
 
@@ -221,6 +238,8 @@ The tests cover:
 
 The test suite uses xUnit and Moq.
 
+The current test suite contains 6 automated tests covering both business logic and thread-safe repository behavior.
+
 Run the tests with:
 
 ```bash
@@ -228,6 +247,79 @@ dotnet test .\FinancialMonitor.Tests\FinancialMonitor.Tests.csproj
 ```
 
 All tests should pass successfully.
+
+## Bonus Features
+
+### Enhanced UI Experience
+
+The dashboard provides a visual indication when a new transaction arrives through SignalR.
+
+When a new transaction is received:
+
+- The transaction is inserted at the top of the dashboard.
+- The new row is temporarily highlighted.
+- A smooth animation is applied to the new transaction.
+- The highlight automatically disappears after the animation completes.
+
+The UI also displays the current SignalR connection state:
+
+- Connected
+- Reconnecting
+- Disconnected
+
+The animation is implemented at the transaction-row level without blocking the dashboard or affecting the existing filtering and real-time update flow.
+
+### Docker
+
+The backend includes a production-oriented multi-stage Dockerfile.
+
+The Docker build uses:
+
+- .NET 8 SDK image for building and publishing the application.
+- ASP.NET Core runtime image for the final container.
+- `.dockerignore` to exclude unnecessary files such as `node_modules`, build artifacts, Git metadata, and Visual Studio files.
+- A non-root `app` user for the runtime container.
+
+Build the image with:
+
+```bash
+docker build -t financialmonitor-api .
+```
+
+Run the container with:
+
+```bash
+docker run --rm -p 8080:8080 \
+  -e ASPNETCORE_URLS=http://+:8080 \
+  financialmonitor-api
+```
+
+The containerized API was verified locally and successfully served the transaction API.
+
+### Kubernetes
+
+The project includes Kubernetes manifests under the `k8s/` directory:
+
+```
+k8s/
+??? deployment.yaml
+??? service.yaml
+```
+
+The Kubernetes deployment includes:
+
+- 5 API replicas
+- Resource requests and limits
+- Readiness probe
+- Liveness probe
+- `imagePullPolicy: IfNotPresent`
+- Container port `8080`
+
+The API is exposed through a Kubernetes `LoadBalancer` Service.
+
+The Kubernetes deployment was tested locally using Docker Desktop Kubernetes.
+
+All 5 API pods successfully reached the `Running` state, and the Kubernetes Service successfully exposed all 5 pod endpoints.
 
 ## Running the Project
 
@@ -340,5 +432,5 @@ Possible future improvements include:
 - Additional sorting and filtering options
 - Authentication and authorization
 - Additional frontend tests
-- Production configuration and deployment
+- Production cloud deployment and infrastructure configuration
 - More detailed monitoring and logging

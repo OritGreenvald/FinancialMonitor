@@ -10,6 +10,7 @@ function DashboardPage() {
     const [statusFilter, setStatusFilter] = useState<'All' | Transaction['status']>('All')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [newTransactionId, setNewTransactionId] = useState<string | null>(null)
 
     useEffect(() => {
         async function loadTransactions() {
@@ -26,6 +27,7 @@ function DashboardPage() {
         loadTransactions()
     }, [])
 
+   
     const handleTransactionCreated = useCallback(
         (transaction: Transaction) => {
             setTransactions((currentTransactions) => {
@@ -37,6 +39,12 @@ function DashboardPage() {
                 if (alreadyExists) {
                     return currentTransactions
                 }
+
+                setNewTransactionId(transaction.transactionId)
+
+                setTimeout(() => {
+                    setNewTransactionId(null)
+                }, 1000)
 
                 return [transaction, ...currentTransactions]
             })
@@ -91,7 +99,11 @@ function DashboardPage() {
 
             <p>Total transactions: {transactions.length}</p>
 
-            <TransactionTable transactions={filteredTransactions} />
+            {/*<TransactionTable transactions={filteredTransactions} />*/}
+            <TransactionTable
+                transactions={filteredTransactions}
+                highlightedTransactionId={newTransactionId}
+            />
         </div>
     )
 }
